@@ -6,33 +6,40 @@
  */
 
 // Given Parameters
-const vel = 10000; // velocity (km/h)
-const acc = 3; // acceleration (m/s^2)
-const time = 3600; // seconds (1 hour)
-const d = 0; // distance (km)
-const fuel = 5000; // remaining fuel (kg)
-const fbr = 0.5; // fuel burn rate (kg/s)
+const initialVelocity = 10000; // velocity (km/h)
+const acceleration = 3; // acceleration (m/s^2)
+const timeSeconds = 3600; // seconds (1 hour)
+const initialDistance = 0; // distance (km)
+const remainingFuel = 5000; // remaining fuel (kg)
+const fuelBurnRate = 0.5; // fuel burn rate (kg/s)
 
 try {
-  const d2 = d + vel * time; //calculates new distance
-  const rf = fbr * time; //calculates remaining fuel
-
-  // Function to calculate new velocity based on acceleration
-  const calcNewVel = (vel, acc, time) => {
-    if (vel < 0 || acc < 0 || time < 0) {
-      throw new Error(
-        "Negative values not allowed for velocity, acceleration, or time."
-      );
-    }
-    return vel + acc * time;
-  };
-
-  // Error handling and correction of function call order
-  const vel2 = calcNewVel(acc, vel, time); //calculates new velocity based on acceleration
-
-  console.log(`Corrected New Velocity: ${vel2} km/h`);
-  console.log(`Corrected New Distance: ${d2} km`);
-  console.log(`Corrected Remaining Fuel: ${rf} kg`);
+  //calculate new distance
+  const newDistance = initialDistance + initialVelocity * (3600 / 3600);
+  console.log(`Corrected New Distance: ${newDistance} km`);
 } catch (error) {
-  console.error("An error occurred:", error.message);
+  console.error("Error calculating new distance:", error);
+}
+
+try {
+  //calculates remaining fuel
+  const remainingFuelAfterBurnRate = remainingFuel - fuelBurnRate * timeSeconds;
+  console.log(`Corrected Remaining Fuel: ${remainingFuelAfterBurnRate} kg`);
+} catch (error) {
+  console.error("Error calculating remaining fuel:", error);
+}
+
+try {
+  //calculate new velocity
+  const calculateNewVelocity = (velocity, acceleration, time) => {
+    return velocity + acceleration * (time * 3.6);
+  };
+  const newVelocity = calculateNewVelocity(
+    initialVelocity,
+    acceleration,
+    timeSeconds
+  );
+  console.log(`Corrected new velocity: ${newVelocity} km/h`);
+} catch (error) {
+  console.error("Error calculating new velocity:", error);
 }
